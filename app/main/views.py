@@ -78,7 +78,7 @@ def tag_document(filename, page_number):
     #                        missing_fields = json.dumps(missing_fields),
     #                        total_field_count=total_field_count,
     #                        form_options=form_options)
-    return render_template('ler_page.html', filename=filename, page=page_number, 
+    return render_template('tag_page.html', filename=filename, page=page_number, 
                            lines=lines, page_height=page_height, page_width=page_width)
 
 @main.route('/document-thumbs/<filename>', methods=['GET', 'POST'])
