@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}PDF Tagging App{% endblock %}
+
+{% block page_content %}
+<main role="main">
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">{{ filename }}</h1>
+      <!-- <p class="lead text-muted">Select the pages that are Form 366—where an LER starts. Note that some documents contain more than one LER, so you can make multiple selections</p> -->
+    </div>
+    {% if progress is not none %}
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+    </div>
+    {% endif %}
+  </section>
+  <div class="album py-5 bg-light">
+    <div class="container" style="padding-bottom: 60px;">
+      <div class="row">
+        {% for page in pages %}
+        <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <img id="{{ page.page_number }}" class="{{ 'card-img-top selected' if page.is_start_page else 'card-img-top' }}" src="{{ '/image/' + filename + '/' + page.page_number|string if page_count > 1 else '/image/' + filename }}" alt="Card image cap">
+          <div class="card-body">
+            <p class="card-text text-center">Page {{page.page_number}}</p>
+          </div>
+        </div>
+      </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</main>
+<div class="base-footer">
+  <div class="footer-grid-wrapper footer-wrapper-narrow">
+      <div class="footer-grid footer-grid-narrow">
+          <div class="btn-1"><button id="submit-btn" type="button" class="button button-success" aria-label="Submit (enter)" title="Submit (enter)"><i class="fas fa-check fa-3x"></i></button></div>
+          <div class="btn-2"><button type="button" class="button button-secondary" aria-label="Skip (esc)" title="Skip (esc)"><i class="fas fa-redo fa-3x"></i></button></div>
+          <div class="btn-3"><button type="button" class="button button-danger" aria-label="Delete (del/bs)" title="Delete (del/bs)"><i class="fas fa-ban fa-3x"></i></button></div>
+      </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+</script>
+{% endblock %}

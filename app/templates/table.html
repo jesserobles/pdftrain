@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+{% block title %}PDF Tagging App{% endblock %}
+
+{% block page_content %}
+<div class="container">
+        <div class="pb-2 mt-4 mb-2 border-bottom"><h1>{{ tablename|title }}</h1></div>
+    <div class="card">
+        <div class="card-header text-center">{{ tablename|title }}</div>
+        <table class="table table-striped table-bordered table-condensed">
+            <thead>
+                <tr>
+                    {% for column in columns%}
+                    <th scope="col" class="text-center">{{ column }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>{% for item in items %}
+                <tr>{% for column in columns %}
+                    <td>{{ item[column] }}</td>{% endfor %}
+                </tr>{% endfor %}
+            </tbody>
+        </table>
+    </div>             
+    <div class="d-flex justify-content-center">
+            {{ macros.pagination_widget(pagination, '.view_table', tablename=tablename) }}
+    </div>
+</div>
+
+
+
+{% endblock %}

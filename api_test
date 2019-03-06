@@ -1,0 +1,17 @@
+# Get Page Tagging Status
+curl -X GET 'http://localhost:5000/api/v1.0/pageTagProgress/2'
+
+# Add tag to textline (add TaggedText object)
+curl -d '{"lineID":"25", "fieldID":"2"}' -H "Content-Type: application/json" -X POST http://localhost:5000/api/v1.0/addTaggedText
+
+# Mark document as false positive (e.g., not an LER)
+curl -d '{"filename": "ML15310A041"}' -H "Content-Type: application/json" -X PUT http://localhost:5000/api/v1.0/notTargetDoc
+
+# Add form to page (e.g., mark Page 1 of ML15009A030 as Form 366
+curl -d '{"pageID": "1", "formID": "4"}' -H "Content-Type: application/json" -X PUT http://localhost:5000/api/v1.0/addPageFormTag
+curl -d '{"pageID": "3", "formID": "2"}' -H "Content-Type: application/json" -X PUT http://localhost:5000/api/v1.0/addPageFormTag
+curl -d '{"pageID": "4", "formID": "2"}' -H "Content-Type: application/json" -X PUT http://localhost:5000/api/v1.0/addPageFormTag
+curl -d '{"pageID": "5", "formID": "2"}' -H "Content-Type: application/json" -X PUT http://localhost:5000/api/v1.0/addPageFormTag
+
+# Add a CropJS selected area
+curl -d '{"pageID": "1", "x_min": "0.0", "y_min": "0.0", "x_max": "1.0", "y_max": "1.0", "field_id": 1}' -H "Content-Type: application/json" -X POST http://localhost:5000/api/v1.0/addTextLine

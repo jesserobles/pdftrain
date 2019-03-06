@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block head %}
+{{ super() }}
+    <link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
+    <script src="https://unpkg.com/jcrop"></script>
+    
+{% endblock %}
+
+{% block title %}PDF Tagging App{% endblock %}
+<style>
+/* img {
+  width: 100%;
+  height: auto;
+} */
+</style>
+
+{% block page_content %}
+<!-- Modal -->
+<div class="modal fade" id="incorrectFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label for="sel1">Select list:</label>
+                        <select class="form-control" id="sel1">{% for f in form_options %}
+                            <option>{{ f }}</option>{% endfor %}
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<main role="main">
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Select Locations for: </h1>
+            <h1 id="jumbotron-heading"></h1>
+            <p id="jumbotron-text" class="lead text-muted">Note that some tags may spread over multiple text areas, so you can make multiple selections. If one text area has multiple tags within it, you can select it for both tags.</p>
+        </div>
+        <div class="progress">
+            <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+        </div>
+    </section>
+        <div class="container">
+                <div class="ler_image">
+            <img id="target" class="img-fluid" src="/image/{{ filename }}/{{page}}"/>
+            {% for line in lines %}
+            <div data-textline-id="{{ line[0] }}" class="word image-fluid" data-toggle="tooltip" data-html="true" data-placement="top" title="{{ line[5] }}" style="position: absolute; left: {{ line[1]}}px; top: {{ line[2] }}px; height: {{ line[3] }}px; width: {{ line[4]}}px; margin: 0px; padding: 0px;"></div>
+            {% endfor %}
+            </div>
+        </div>
+</main>
+<div class="base-footer">
+    <div class="footer-grid-wrapper footer-wrapper-wide">
+        <div class="footer-grid footer-grid-wide">
+            <div class="btn-1"><button id="submit-btn" type="button" class="button button-success" aria-label="Submit (enter)" title="Submit (enter)"><i class="fas fa-check fa-3x"></i></button></div>
+            <div class="btn-2"><button id="undo-btn" type="button" class="button button-primary" aria-label="Undo (x)" title="Undo (x)"><i class="fas fa-undo fa-3x"></i></button></div>
+            <div class="btn-3"><button id="formUpdate-btn" type="button" class="button button-secondary" aria-label="Incorrect Form (f)" title="Incorrect Form (f)"><i class="fas fa-edit fa-3x"></i></button></div>
+            <div class="btn-4"><button id="crop-btn" type="button" class="button button-warning" aria-label="Undetected Area (c)" title="Undetected Area (c)"><i class="fas fa-crop fa-3x"></i></button></div>
+            <div class="btn-5"><button id="skip-btn"type="button" class="button button-danger" aria-label="Not Present (esc)" title="Not Present (esc)"><i class="fas fa-ban fa-3x"></i></button></div>
+        </div>
+    </div>
+</div>
+<!-- <footer class="text-muted">
+    <div class="container text-center">
+        <button id="submit-btn" type="button" class="btn btn-success" disabled>Submit Tag</button>
+        <button type="button" class="btn btn-info">Undo</button>
+        <button type="button" class="btn btn-danger">Not the right Form</button>
+        <button type="button" class="btn btn-warning">Not Detected</button>
+        <button type="button" class="btn btn-primary">Value Not Present</button>
+    </div>
+</footer> -->
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script>
+    // Setup page intital defaults
+    // Make word selectable and add red border
+    $('.word').click(function(){
+        $(this).toggleClass('selected');
+        $('#submit-btn').prop('disabled', (_, v) => ($('.selected').length < 1));
+        console.log('Selected!');
+    });
+
+    // Add tooltips with text
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+
+    
+    // $('.btn-danger').click(incorrectForm);
+
+    // $('.btn-primary').click(randomPage);
+    // Jcrop.attach('target');
+    // Jcrop.attach('target',{
+    //     shadeColor: 'red',
+    //     multi: true
+    // });
+    
+    // console.log(stage.active.pos);
+    // const stage = Jcrop.load('target').then(img => Jcrop.attach(img));
+    // const stage = Jcrop.load('target');
+    // document.getElementById('target').src = "/image/{{ filename }}/{{page}}";
+    // let options = { shade: false };
+    let pos = {x: 127, y: 682, w: 55, h: 30};
+    let center_x = pos.x + pos.w / 2;
+    let center_y = pos.y + pos.h / 2;
+
+    let state;
+    $("#crop-btn").click(function() {
+        $('.word').hide();
+        $('#submit-btn').prop('disabled', true);
+        $('#undo-btn').prop('disabled', true);
+        $('#formUpdate-btn').prop('disabled', true);
+        $('#skip-btn').prop('disabled', true);
+        
+        Jcrop.load('target').then(img => state = Jcrop.attach(img))
+            .then(img => $('.jcrop-stage.jcrop-image-stage').css('cursor', 'crosshair'))
+            .then(function(img){
+                const rect = Jcrop.Rect.sizeOf(state.el);
+                state.newWidget(rect.scale(.2, .05).center(rect.w,rect.h));
+
+            });
+        
+        console.log(state);
+    });
+    
+</script>
+
+{% endblock %}

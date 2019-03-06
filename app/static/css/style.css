@@ -1,0 +1,213 @@
+body {
+  font-family: 'Muli', sans-serif;
+}
+
+:root {
+  --jumbotron-padding-y: 3rem;
+}
+
+.jumbotron {
+  padding-top: var(--jumbotron-padding-y);
+  padding-bottom: var(--jumbotron-padding-y);
+  margin-bottom: 0;
+  background-color: #fff;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: calc(var(--jumbotron-padding-y) * 2);
+    padding-bottom: calc(var(--jumbotron-padding-y) * 2);
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron-heading {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 40rem;
+}
+
+footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+footer p {
+  margin-bottom: .25rem;
+}
+
+/* PDF Page Tagging */
+.ler_image {
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px 0px 0px 0px;
+}
+
+div.ler_image > img {
+  display: block;
+  height: 1320px;
+  width: 1020px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+div.selected {
+  border-style: solid;
+  border-color: red !important;
+  border-width: 3px;
+  /* opacity: 1; */
+}
+
+.word:hover {
+  border-style: solid;
+  border-color: orange;
+  border-width: 3px;
+  /* opacity: 1; */
+}
+
+
+/* LER Start Page Tagging Styles */
+.card > img {
+  border-style: solid;
+  border-color: #333;
+  border-width: 3px;
+
+}
+
+img.selected{
+  box-shadow:0px 12px 22px 1px #333;
+  border-color: red;
+}
+
+.card > img:hover {
+  border-color: orange;
+}
+
+img.selected:hover {
+  border-color: red;
+}
+.card-text {
+  font-size: 85%;
+}
+
+/* Bottom button bar styles */
+.base-footer {
+  position: fixed;
+  bottom: 0%;
+  width: 100%;
+}
+
+.footer-grid-wrapper {
+  display: grid;
+  grid-template-rows: repeat(1, 100px);
+}
+
+.footer-wrapper-narrow {
+  grid-template-columns: auto 300px auto;
+}
+
+.footer-wrapper-wide {
+  grid-template-columns: auto 500px auto;
+}
+.footer-grid {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  display: grid;
+  grid-gap: 5px;
+  grid-template-rows: repeat(1, auto);
+  border-style: solid;
+  border-color: white;
+  border-radius: 0;
+  border-width: 4px 2px 0px 2px;
+  padding: 0px 3px 0px 3px;
+  background-color: #fff;
+}
+
+.footer-grid-narrow {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.footer-grid-wide {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.btn-1 {
+  grid-column: 1;
+  grid-row: 1;
+}
+.btn-2 {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.btn-3 {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.btn-4 {
+  grid-column: 4;
+  grid-row: 1;
+}
+
+.btn-5 {
+  grid-column: 5;
+  grid-row: 1;
+}
+
+.footer {
+  background-color: #f5f5f5;
+  position: fixed;
+  text-align: center;
+  bottom: 0%;
+  width: 100%;
+  height: 100px;
+}
+
+.button {
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  font-size: 16px;
+}
+
+.button-success {
+  background-color: #4CAF50; /* Green */
+}
+
+.button-primary {
+  background-color: #0062cc; /* Blue */
+}
+
+.button-secondary {
+  background-color: #6c757d; /* Gray */
+}
+.button-danger {
+  background-color: #bd2130; /* Red */
+}
+
+.button-warning {
+  background-color: #ffc107; /* Orange */
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: .65;
+}
