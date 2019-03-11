@@ -119,6 +119,11 @@ def add_text_line():
     return jsonify(tagged_text.to_json())
 
 
+@api.route('/getFieldNames/<int:form_id>')
+def get_field_names(form_id):
+    form = Form.query.filter_by(id=form_id).first_or_404()
+    fields = [field.to_json() for field in form.form_fields]
+    return jsonify(fields)
 # @api.route('/addStartPage/<filename>/<page_number>', methods=['GET'])
 # def add_start_page(filename, page_number):
 #     doc = Document.query.filter_by(filename=filename).first_or_404()
