@@ -76,12 +76,11 @@
             let listItem = document.createElement('li');
             listItem.classList.add("list-group-item");
             listItem.classList.add("unrounded");
-            listItem.innerHTML =  element.name + ' <i class="fas fa-check" style="color: #28a745;"></i>';
+            listItem.innerHTML =  element.name + ' <i class="fas fa-check float-right" style="color: #28a745;"></i>';
             let ul = document.getElementById("fieldList");
             ul.appendChild(listItem);
         });
     });
-    
 
 </script>
 {% endblock %}
