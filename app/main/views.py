@@ -9,7 +9,7 @@ from sqlalchemy.sql.expression import func
 
 from . import main
 from .. import db
-from ..models import FormField, Document, Page, TextLine, TaggedText, TextLineSource
+from ..models import FormField, Document, Page, TextLine, TaggedText, TextLineSource, Form
 
 
 def get_class_by_tablename(tablename):
@@ -241,31 +241,27 @@ def view_table(tablename):
 
 @main.route('/page')
 def page():
-    scaling_factor = 1
     filename = 'ML15009A030'
     form_id = 1
+    form_id = 0
     page_number = 1
     doc = Document.query.filter_by(filename=filename).first_or_404()
     page = doc.pages.filter_by(page_number=page_number).first_or_404()
-
+    form_types = Form.query.all()
     # First get page dimensions and text area positions
     # Get page dimensions to scale the text positions
     x_min_page, y_min_page, x_max_page, y_max_page = page.x_min, page.y_min, page.x_max, page.y_max
-    x_min_page *= scaling_factor
-    y_min_page *= scaling_factor
-    x_max_page *= scaling_factor
-    y_max_page *= scaling_factor
     page_width = x_max_page - x_min_page
     page_height = y_max_page - y_min_page
     lines = [(
               line.id,
-              scaling_factor * (line.x_min - x_min_page), # left
-              y_max_page - (scaling_factor * line.y_max), # top
-              scaling_factor * (line.y_max - line.y_min), # height
-              scaling_factor * (line.x_max - line.x_min), # width
+              line.x_min - x_min_page, # left
+              y_max_page - line.y_max, # top
+              line.y_max - line.y_min, # height
+              line.x_max - line.x_min, # width
               re.sub('\n', '<br>', line.text) # text
              ) for line in page.text_lines.all()
             ]
     return render_template('page.html', filename=filename, page=page_number, 
                            lines=lines, page_height=page_height, page_width=page_width,
-                           form_id=form_id)
+                           form_id=form_id, form_types=form_types)

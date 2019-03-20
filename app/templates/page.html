@@ -10,25 +10,27 @@
 {% block page_content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2 bg-light p-0">
+        <div class="col-lg-3 bg-light p-0">
             <div class="sidebar-sticky">
+                <h3 class="text-center">Form Progress</h3>
+                <div class="progress">
+                    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                </div>
+                <br>
+                <label for="formType" class="col-sm-4 col-form-label">Form Type</label>
+                <select id="formType" class="form-control form-control-sm">
+                    <option disabled selected value> -- select an option -- </option>
+                    {% for form in form_types %}
+                    <option {% if form.id == form_id %}selected="selected" {% endif %}value="{{ form.id }}">{{ form.form_name }}</option>{% endfor %}
+                </select>
+                <br>
                 <ul id="fieldList" class="list-group">
-                    <!-- <li class="list-group-item unrounded">
-                        <i class="fas fa-check" style="color: #28a745;"></i> Cras justo odio
-                    </li>
-                    <li class="list-group-item unrounded">
-                        <i class="fas fa-times" style="color: #bd2130;"></i> Cras justo odio
-                    </li>
-                    <li class="list-group-item unrounded">
-                        <i class="fas fa-question" style="color: #ffc107;"></i> Cras justo odio
-                    </li> -->
                 </ul>
             </div>
         </div>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <div id="album" class="col-10">
-                <img src="/image/{{ filename }}/{{page}}" class="img-fluid" style="width: 100%;" alt="">
+        <main role="main" class="ml-sm-auto col-lg-9 px-4">
+            <div id="album" class="col-12">
+                <img src="/image/{{ filename }}/{{page}}" class="img-fluid" alt="Form Image">
                 {% for line in lines %}<div data-textline-id="{{ line[0] }}" class="word" data-toggle="tooltip" data-html="true" data-placement="top" title="{{ line[5] }}" style="position: absolute; left: {{ 100 * line[1] / page_width }}%; top: {{ 100 * line[2] / page_height }}%; height: {{ 100 * line[3] / page_height }}%; width: {{ 100 * line[4] / page_width }}%; margin: 0px; padding: 0px;"></div>{% endfor %}
             </div>
         </main>
