@@ -59,7 +59,7 @@ parso==0.3.2
 pdfminer.six==20170720
 pexpect==4.6.0
 pickleshare==0.7.5
-Pillow==5.4.1
+Pillow==8.2.0
 prompt-toolkit==2.0.8
 psutil==5.5.0
 ptyprocess==0.6.0
